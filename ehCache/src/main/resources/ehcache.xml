@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns='http://www.ehcache.org/v3'
+  xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+  xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd
+			http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+  <service>
+    <jsr107:defaults enable-management="true" enable-statistics="true"/>
+  </service>
+
+  <!-- Disk 옵션을 사용하는 경우 저장소의 위치를 저장해주어야 합니다. -->
+  <persistence directory="/Users/lowlow/IdeaProjects/local-cache-example"/>
+
+  <!--
+  다음 처럼 복수의 resource 를 지정하는 경우
+  1. JVM Heap 에 100 개의 데이터 저장
+  2. 100 개의 아이템 저장 초과시 DRAM 에 100MB 만큼의 데이터 저장
+  3. 100MB 만큼의 DRAM 데이터 저장 초과시 디스크에 2GB 만큼의 데이터 저장
+
+  하나의 resource 를 지정하였고 저장 용량을 초과하는 경우
+  가장 나중에 저장한 데이터를 삭제 합니다.
+
+  <cache alias="memberCache">
+    <expiry>
+      <ttl unit="seconds">10</ttl>
+    </expiry>
+    <resources>
+      <heap unit="entries">100</heap>
+      <offheap unit="MB">100</offheap>
+      <disk unit="GB" persistent="false">2</disk>
+    </resources>
+  </cache>
+
+  -->
+
+  <!-- JVM Heap Save -->
+  <cache alias="memberCache">
+    <expiry>
+      <ttl unit="seconds">10</ttl>
+    </expiry>
+    <resources>
+      <heap unit="entries">100</heap>
+    </resources>
+  </cache>
+
+  <!-- Memory Save -->
+  <cache alias="myCache1">
+    <expiry>
+      <ttl unit="days">1</ttl>
+    </expiry>
+    <resources>
+      <offheap unit="MB">100</offheap>
+    </resources>
+  </cache>
+
+  <!-- Disk Save -->
+  <cache alias="myCache2">
+    <expiry>
+      <ttl unit="seconds">10</ttl>
+    </expiry>
+    <resources>
+      <disk unit="MB" persistent="false">5</disk> <!-- persistent : JVM 종료시 데이터 유지 유무 -->
+    </resources>
+  </cache>
+</config>
