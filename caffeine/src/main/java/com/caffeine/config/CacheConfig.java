@@ -18,7 +18,7 @@ public class CacheConfig {
 
         CaffeineCache memberCache = new CaffeineCache("memberCache", Caffeine.newBuilder()
             .expireAfterWrite(10, TimeUnit.SECONDS)
-            .maximumSize(100)
+            .maximumSize(100) // 초과시 오래된 항목 순서로 삭제됨
             .build());
 
         CaffeineCache orderCache = new CaffeineCache("orderCache", Caffeine.newBuilder()
